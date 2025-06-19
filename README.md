@@ -1,11 +1,13 @@
 # Digital-Appendix
 Digital Appendix to the thesis: Systematic creation of complex geometries and wave functions for transition metals of groups 3-7
 
+All Programs are written in Python 3.9
+
 ## 01 Complex Generation
 ### Database for Ligands and Metals
 Ligands and Metals Database (Ligans.db and Metals.db respectively) can be reviewed via Database.py with both Ligands.db and Metals.db in the same folder.
 
-Requires:
+Required Packages: tkinter, sqlite3, matplotlib and numpy
 
 ### Program for combining Ligands and Metals
 Can be used by downloading the whole folder "Generation" and using the Program StartUp.py in this folder.
@@ -13,7 +15,7 @@ Can be used by downloading the whole folder "Generation" and using the Program S
 Requires:
 
 ## 02 XTB Calculations
-Contains both the generated input files and the resulting output files from the geometry optimization.
+Contains the generated output and input files from the geometry optimization, as well as the Program to convert these into the needed GOAT Input files.
 ## 03 GOAT
 ### Input Files and Output Files
 Input and Output Files from the GOAT conformer search.
