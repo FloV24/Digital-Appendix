@@ -180,8 +180,8 @@ def calculate_multiplicity(d_electrons):
     Returns the possible values for the multiplicity based on oxidation State / number of d-electrons.
     """
     multiplicity_map = {
-        0: [1], 1: [2], 2: [3], 3: [4], 4: [3, 5], 5: [2, 6],
-        6: [1, 5], 7: [2, 4], 8: [3], 9: [2], 10: [1]
+        0: [1], 1: [2], 2: [1, 3], 3: [2, 4], 4: [1, 3, 5], 5: [2, 4, 6],
+        6: [1, 3, 5], 7: [2, 4], 8: [1, 3], 9: [2], 10: [1]
     }
     return multiplicity_map.get(d_electrons, [])
 
@@ -964,7 +964,7 @@ def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     metall_db_path = os.path.join(base_dir, "Database", "metals.db")
     ligand_db_path = os.path.join(base_dir, "Database", "ligands.db")
-    output_base_dir_Octahedral = os.path.join(base_dir, "Complexes ", "Octahedral")
+    output_base_dir_Octahedral = os.path.join(base_dir, "Complexes", "Octahedral")
     output_base_dir_Tetrahedral = os.path.join(base_dir, "Complexes", "Tetrahedral")
     output_base_dir_quadratisch_planar = os.path.join(base_dir, "Complexes", "Square Planar")
     output_base_dir_trigonal_bipyramidal = os.path.join(base_dir, "Complexes", "Trigonal Bipyramidal")
