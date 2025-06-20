@@ -958,42 +958,7 @@ def count_configurations_and_files(base_dir):
     
     return total_folders, total_inp_files
 
-def process_geometry_limited(metalle, ligands, ligand_db_path, output_base_dir, base_dir, process_func, test_mode=False, limit=100):
-    """
-    Collects all possible (metal, ligand combination) pairs for a geometry, shuffles, and processes only up to 'limit' if test_mode is True.
-    process_func should be the original geometry processing function.
-    """
-    import itertools
-    import random
-    all_configs = []
-    # Determine ligand count per geometry by inspecting the process_func name
-    func_name = process_func.__name__
-    if 'octahedral' in func_name.lower() or 'trigonal_prismatische' in func_name.lower():
-        ligand_count = 6
-    elif 'trigonal_bipyramidale' in func_name.lower() or 'quadratisch_pyramidale' in func_name.lower():
-        ligand_count = 5
-    elif 'tetrahedral' in func_name.lower() or 'quadratisch_planare' in func_name.lower():
-        ligand_count = 4
-    elif 'trigonal_planare' in func_name.lower() or 't_förmige' in func_name.lower() or 'trigonal_pyramidale' in func_name.lower():
-        ligand_count = 3
-    elif 'lineare' in func_name.lower() or 'gewinkelte' in func_name.lower() or 'linear_gewinkelt' in func_name.lower():
-        ligand_count = 2
-    else:
-        ligand_count = 4  # fallback
-    # Build all (metal, ligand_set) pairs
-    for metall in metalle:
-        combos = list(itertools.combinations_with_replacement(ligands, ligand_count))
-        for ligand_set in combos:
-            all_configs.append((metall, ligand_set))
-    if test_mode:
-        print(f"Test mode enabled. Processing only {limit} configurations.")
-        random.shuffle(all_configs)
-        all_configs = all_configs[:limit]
-    for metall, ligand_set in all_configs:
-        # Wrap ligand_set in a list for process_func compatibility
-        process_func([metall], list(ligand_set), ligand_db_path, output_base_dir, base_dir)
-
-def main(test_mode=False, limit=100):
+def main():
     global Skipped_Complexes
     # Datenbankpfade
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -1013,55 +978,55 @@ def main(test_mode=False, limit=100):
     metalle_trigonal_prismatisch = fetch_trigonal_prismatische_metalle(metall_db_path)
     if metalle_trigonal_prismatisch:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_trigonal_prismatisch, ligands, ligand_db_path, output_base_dir_trigonal_prismatisch, base_dir, process_trigonal_prismatische_geometry, test_mode, limit)
+        process_trigonal_prismatische_geometry(metalle_trigonal_prismatisch, ligands, ligand_db_path, output_base_dir_trigonal_prismatisch, base_dir)
     print("Trigonal Prismatic done")
     # Trigonal Pyramidal Geometrie
     metalle_trigonal_pyramidal = fetch_trigonal_pyramidale_metalle(metall_db_path)
     if metalle_trigonal_pyramidal:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_trigonal_pyramidal, ligands, ligand_db_path, output_base_dir_trigonal_pyramidal, base_dir, process_trigonal_pyramidale_geometry, test_mode, limit)
+        process_trigonal_pyramidale_geometry(metalle_trigonal_pyramidal, ligands, ligand_db_path, output_base_dir_trigonal_pyramidal, base_dir)
     print("Trigonal Pyramidal done")
     # T-förmige Geometrie
     metalle_t_förmig = fetch_t_förmige_metalle(metall_db_path)
     if metalle_t_förmig:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_t_förmig, ligands, ligand_db_path, output_base_dir_t_förmig, base_dir, process_t_förmige_geometry, test_mode, limit)
+        process_t_förmige_geometry(metalle_t_förmig, ligands, ligand_db_path, output_base_dir_t_förmig, base_dir)
     print("T-förmig done")
     # Square Pyramidal Geometrie
     metalle_quadratisch_pyramidal = fetch_quadratisch_pyramidale_metalle(metall_db_path)
     if metalle_quadratisch_pyramidal:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_quadratisch_pyramidal, ligands, ligand_db_path, output_base_dir_quadratisch_pyramidal, base_dir, process_quadratisch_pyramidale_geometry, test_mode, limit)
+        process_quadratisch_pyramidale_geometry(metalle_quadratisch_pyramidal, ligands, ligand_db_path, output_base_dir_quadratisch_pyramidal, base_dir)
     print("Square Pyramidal done")
     # Trigonal planare Geometrie
     metalle_trigonal_planar = fetch_trigonal_planare_metalle(metall_db_path)
     if metalle_trigonal_planar:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_trigonal_planar, ligands, ligand_db_path, output_base_dir_trigonal_planar, base_dir, process_trigonal_planare_geometry, test_mode, limit)
+        process_trigonal_planare_geometry(metalle_trigonal_planar, ligands, ligand_db_path, output_base_dir_trigonal_planar, base_dir)
     print("Trigonal Planar done")
     # Trigonal Bipyramidale Geometrie
     metalle_trigonal_bipyramidal = fetch_trigonal_bipyramidale_metalle(metall_db_path)
     if metalle_trigonal_bipyramidal:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_trigonal_bipyramidal, ligands, ligand_db_path, output_base_dir_trigonal_bipyramidal, base_dir, process_trigonal_bipyramidale_geometry, test_mode, limit)
+        process_trigonal_bipyramidale_geometry(metalle_trigonal_bipyramidal, ligands, ligand_db_path, output_base_dir_trigonal_bipyramidal, base_dir)
     print("Trigonal Bipyramidal done")
     # Square Planare Geometrie
     metalle_quadratisch_planar = fetch_quadratisch_planare_metalle(metall_db_path)
     if metalle_quadratisch_planar:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_quadratisch_planar, ligands, ligand_db_path, output_base_dir_quadratisch_planar, base_dir, process_quadratisch_planare_geometry, test_mode, limit)
+        process_quadratisch_planare_geometry(metalle_quadratisch_planar, ligands, ligand_db_path, output_base_dir_quadratisch_planar, base_dir)
     print("Square Planar done")
     # Octahedrale Geometrie
     metalle_Octahedral = fetch_Octahedrale_metalle(metall_db_path)
     if metalle_Octahedral:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_Octahedral, ligands, ligand_db_path, output_base_dir_Octahedral, base_dir, process_Octahedrale_geometry, test_mode, limit)
+        process_Octahedrale_geometry(metalle_Octahedral, ligands, ligand_db_path, output_base_dir_Octahedral, base_dir, metall_db_path)
     print("Octahedral done")
     # Tetrahedrale Geometrie
     metalle_Tetrahedral = fetch_Tetrahedrale_metalle(metall_db_path)
     if metalle_Tetrahedral:
         ligands = fetch_all_ligands(ligand_db_path)
-        process_geometry_limited(metalle_Tetrahedral, ligands, ligand_db_path, output_base_dir_Tetrahedral, base_dir, process_tetrahedral_geometry, test_mode, limit)
+        process_tetrahedral_geometry(metalle_Tetrahedral, ligands, ligand_db_path, output_base_dir_Tetrahedral, base_dir)
     print("Tetrahedral done")
 
     # Print the total count of skipped complexes
@@ -1074,13 +1039,7 @@ def main(test_mode=False, limit=100):
     print(f"Created .inp files: {file_count}")
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--test-mode', action='store_true', help='Enable test mode (limit number of input files per geometry)')
-    parser.add_argument('--limit', type=int, default=100, help='Number of input files per geometry in test mode')
-    args = parser.parse_args()
-    main(test_mode=args.test_mode, limit=args.limit)
-
+    main()
 
 
 
