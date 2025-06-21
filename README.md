@@ -15,7 +15,7 @@ Can be used by downloading the whole folder "Generation" and using the Program S
 Requires:
 
 ## 02 XTB Calculations
-Contains the generated output and input files from the geometry optimization, as well as the Program to convert these into the needed GOAT Input files.
+Contains the generated output files from the geometry optimization, as well as the Program to convert these into the needed GOAT Input files. The input files are needed as well for the conversion as they store the charge and multiplicity.
 ## 03 GOAT
 ### Input Files and Output Files
 Input and Output Files from the GOAT conformer search.
