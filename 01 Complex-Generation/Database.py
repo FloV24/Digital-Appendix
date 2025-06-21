@@ -68,7 +68,7 @@ def show_data():
     metalle_frame = ttk.Frame(notebook)
     notebook.add(metalle_frame, text="Metals")
 
-    metalle_db_path = os.path.join(os.path.dirname(__file__), "metals.db")
+    metalle_db_path = os.path.join(os.path.dirname(__file__), "Database/metals.db")
     metalle_columns, metalle_rows = fetch_data(metalle_db_path, "metalle", order_by="ordnungszahl")
 
     # German to English mapping for metals columns
@@ -94,7 +94,7 @@ def show_data():
     liganden_frame = ttk.Frame(notebook)
     notebook.add(liganden_frame, text="Ligands")
 
-    liganden_db_path = os.path.join(os.path.dirname(__file__), "ligands.db")
+    liganden_db_path = os.path.join(os.path.dirname(__file__), "Database/ligands.db")
     liganden_columns, liganden_rows = fetch_data(liganden_db_path, "liganden")
 
     # German to English mapping for ligands columns
