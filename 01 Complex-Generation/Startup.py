@@ -9,10 +9,7 @@ from collections import defaultdict
 def fetch_metals(db_path, geometry, coordination=None):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    if coordination:
-        cursor.execute("SELECT name, d_elektronen, oxidation FROM metalle WHERE geometrie=? AND koordinationszahl=?", (geometry, coordination))
-    else:
-        cursor.execute("SELECT name, d_elektronen, oxidation FROM metalle WHERE geometrie=?", (geometry,))
+    cursor.execute("SELECT name, d_elektronen, oxidation FROM metalle WHERE geometrie=? AND koordinationszahl=?", (geometry, coordination))
     metals = [{"name": row[0], "d_electrons": row[1], "oxidation": row[2]} for row in cursor.fetchall()]
     conn.close()
     return metals
@@ -81,16 +78,20 @@ GEOMETRIEN = {
     "Trigonal-pyramidal": {
         "coord": 3,
         "positions": [
-            [0, 0, 1.5],
-            [1.299038, 0, -0.75],
-            [-1.299038, 0, -0.75]
+            [0.663, -1.148, -0.7],   
+            [-0.663, -1.148, -0.7],   
+            [0, 1.327, -0.7] 
         ]
     },
     "Trigonal-prismatisch": {
         "coord": 6,
         "positions": [
-            [0.75, 1.299038, 0.75], [-0.75, 1.299038, -0.75], [-1.5, 0, 0],
-            [-0.75, -1.299038, 0.75], [0.75, -1.299038, -0.75], [1.5, 0, 0]
+            [0.663, -1.148, -0.7],   
+            [-0.663, -1.148, -0.7],   
+            [0, 1.327, -0.7],
+            [0.663, 1.148, 0.7],   
+            [-0.663, 1.148, 0.7],   
+            [0, -1.327, 0.7] 
         ]
     }
 }
@@ -126,7 +127,7 @@ def multiplicities(d_e):
     return {
         0: [1], 1: [2], 2: [1, 3], 3: [2, 4], 4: [1, 3, 5], 5: [2, 4, 6],
         6: [1, 3, 5], 7: [2, 4], 8: [1, 3], 9: [2], 10: [1]
-    }.get(d_e, [1])
+    }[d_e]
 
 # --- Ligand transformation ---
 

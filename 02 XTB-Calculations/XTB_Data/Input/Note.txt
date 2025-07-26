@@ -1,1 +1,0 @@
-gfn2-xTB Geometry optimization input data is in 01 Complex Generation/Complexes for storage reasons, but has to be in the XTB_Data folder for XTBtoGOAt.py to work

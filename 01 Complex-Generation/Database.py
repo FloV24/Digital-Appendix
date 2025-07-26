@@ -137,6 +137,53 @@ def show_data():
         liganden_tree.selection_set(liganden_tree.get_children()[0])
         on_ligand_select()
 
+    # --- Geometrien-Tab ---
+    import sys
+    import numpy as np
+    sys.path.append(os.path.dirname(__file__))
+    from Startup import GEOMETRIEN
+
+    geometrien_frame = ttk.Frame(notebook)
+    notebook.add(geometrien_frame, text="Geometries")
+
+    rows, cols = 3, 4
+    geom_names = list(GEOMETRIEN.keys())
+    for idx, geom_name in enumerate(geom_names):
+        geom_data = GEOMETRIEN[geom_name]
+        row = idx // cols
+        col = idx % cols
+
+        subframe = ttk.LabelFrame(geometrien_frame, text=geom_name)
+        subframe.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
+        plot_frame = tk.Frame(subframe)
+        plot_frame.pack(expand=True, fill='both')
+
+        coords = np.array(geom_data["positions"])
+        fig = plt.figure(figsize=(2.5, 2.5))
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Metallzentrum bei (0,0,0)
+        ax.scatter([0], [0], [0], s=120, c='k', marker='o', label='Metal center')
+
+        # Ligandenpositionen
+        if len(coords) > 0:
+            ax.scatter(coords[:,0], coords[:,1], coords[:,2], s=70, c='r')
+            # Linien vom Zentrum zu jedem Liganden
+            for i in range(len(coords)):
+                ax.plot([0, coords[i,0]], [0, coords[i,1]], [0, coords[i,2]], c='b', ls='-', lw=1)
+        ax.set_title(geom_name)
+        ax.set_axis_off()
+        fig.tight_layout()
+        canvas = FigureCanvasTkAgg(fig, master=plot_frame)
+        canvas.draw()
+        canvas.get_tk_widget().pack(expand=True, fill='both')
+        plt.close(fig)
+
+    for r in range(rows):
+        geometrien_frame.rowconfigure(r, weight=1)
+    for c in range(cols):
+        geometrien_frame.columnconfigure(c, weight=1)
+
     root.mainloop()
 
 if __name__ == "__main__":
