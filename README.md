@@ -23,7 +23,7 @@ sort_multiplicities.py: Sorts complexes with multiple multiplicities according t
 
 ## 04 Comparison
 ### Data
-All .json files are in the zip folder named Data.
+The Data folder contains three folders.
 Each folder contains the generated .json files from the GOAT-data, the CCDC and the OMol25 Database, respectively. The data can be compared via the modified Program Interactive.py from Lisa Mattiussi (https://github.com/chaosliza/Interactive-Graphs)
 
 ### Scripts
